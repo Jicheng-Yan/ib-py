@@ -1,0 +1,238 @@
+IbPy - Interactive Brokers Python API
+==============================================================================
+IbPy 9.65
+
+
+What is IbPy?
+------------------------------------------------------------------------------
+IbPy is a third-party implementation of the API used for accessing the
+Interactive Brokers on-line trading system.  IbPy implements
+functionality that the Python programmer can use to connect to IB,
+request stock ticker data, submit orders for stocks and futures, and
+more.
+
+IbPy is not a product of Interactive Brokers, nor am I affiliated with
+IB.
+
+
+What's in this release?
+------------------------------------------------------------------------------
+
+  * TWS API version 9.65 now supported
+  * Over 60% test coverage and growing
+  * Fixed outstanding bugs in EReader generated source
+  * Module ib.opt.logger moved to ib.lib.logger
+  * Class ib.opt.Connection moved to new ib.opt.connection module
+  * Added script to filter TWS log files; see demo/log_filter
+  * Added ib.sym package to hold various symbolic constants
+  * Many small enhancements to ib.opt package
+
+
+
+How do I use IbPy?
+------------------------------------------------------------------------------
+See the IbPy wiki page "Getting Started with IbPy":
+
+    http://code.google.com/p/ibpy/wiki/GettingStarted
+
+
+What are the requirements?
+------------------------------------------------------------------------------
+IbPy requires Python 2.6+  Previous versions are not supported.
+
+TWS (Trader Work Station) and IBGW (Interactive Brokers Gateway) can also be started directly with Sun(R) Java(tm) and
+the stand-alone package supplied by Interactive Brokers. These serve as the API gateway to connect with Interactive Brokers.
+
+TWS/IBGW can be downloaded at:
+interactivebrkers.com
+
+To run TWS:
+java -cp jts.jar:hsqldb.jar:jcommon-1.0.12.jar:jfreechart-1.0.9.jar:jhall.jar:other.jar:rss.jar -Xmx512M -XX:MaxPermSize=128M jclient.LoginFrame .
+
+To run IBGW:
+java -cp jts.jar:hsqldb.jar:jcommon-1.0.12.jar:jhall.jar:other.jar:rss.jar -Dsun.java2d.noddraw=true -Xmx512M ibgateway.
+GWClient
+
+Some other useful tools:
+IBController: http://ibcontroller.sourceforge.net/
+
+
+Who is Interactive Brokers?
+------------------------------------------------------------------------------
+
+Interactive Brokers conducts its broker/dealer and proprietary trading businesses on over 100 market destinations worldwide. In its broker dealer agency business, IB provides direct access ("on line") trade execution and clearing services to institutional and professional traders for a wide variety of electronically traded products including stocks, options, futures, forex, bonds, CFDs and funds worldwide. In its proprietary trading business, IB engages in market making for its own account in about 6,500 different electronically traded products. Interactive Brokers Group and its affiliates execute nearly 1,000,000 trades per day.
+
+How to build/install IbPy?
+------------------------------------------------------------------------------
+
+Ubuntu 12.04 (64-bit): Precise P
+
+1)______________ Prebuilt
+You should be able to install the python package that is pre-built in IbPy/ib/ext
+
+from IbPy
+——> sudo python setup.py install
+
+
+2)_______________Rebuild from java API
+
+
+It assumes you have root access (sudo user) and using bash
+
+Prerequisites
+Python 2.7
+wget
+and others below
+
+Some of the following packages can be found in the IbPy/extras/ubuntu_precise/ directory
+
+——> sudo apt-get install wget
+——> sudo apt-get install gcj-4.6-jre gcj-4.6-jre-headless gcj-jre gcj-jre-headless libgcj12-awt
+——> sudo apt-get install antlr python-antlr
+——> sudo apt-get install libantlr2.7-cil libantlr-dev libantlr-java libantlr-maven-plugin-java 
+
+get (cantlr.sh) cantlr_2.7.7-17ubuntu1_amd64.deb and dependancy libantlr-java-gcj from:
+
+https://launchpad.net/ubuntu/oneiric/amd64/libantlr-java-gcj/2.7.7-17ubuntu1 (or in IbPy/extras/ubuntu_precise/)
+install:
+——> sudo dpkg -i libantlr-java-gcj_2.7.7-17ubuntu1_amd64.deb 
+
+
+https://launchpad.net/ubuntu/precise/amd64/cantlr/2.7.7-17ubuntu1  (or in IbPy/extras/ubuntu_precise/)
+install:
+——> sudo dpkg -i cantlr_2.7.7-17ubuntu1_amd64.deb 
+
+Also we assume python and java are installed
+This will also install the GNU compiler collection (gcj-4.6-base) and related packages if they are not installed.
+
+We also need 'jar' (e.g /usr/lib/jvm/java-6-openjdk/bin/jar) to unpack jar file, so openjdk-jdk is needed.
+——> sudo apt-get install openjdk-7-jdk 
+——> which jar
+/usr/bin/jar
+
+We're also going to assume that you've got Python installed.
+——> python -V
+Python 2.7.3
+
+Install java2python
+We are going to need subversion
+——> sudo apt-get install subversion
+
+You'll need a very specific version of java2python, revision 50 (for building IbPy). Checkout, build and install:
+
+——> IbPy/extras/ubuntu_precise/
+——> svn co -r 50 http://java2python.googlecode.com/svn/trunk java2python_r50
+——> cd java2python_r50/java2python
+
+Now we need to modify the Makefile in ./lib
+——> cd lib
+change:
+	antlr java.g
+	antlr java.g
+	antlr walker.g
+to:
+	cantlr.sh java.g
+	cantlr.sh java.g
+	cantlr.sh walker.g
+
+——> cd ..
+——> make clean
+——> make
+cd lib && make
+make[1]: Entering directory `/home/guido/src/java2python_r50/java2python/lib'
+cantlr.sh java.g
+Running java antlr.Tool $* with /usr/share/java/antlr.jar appended to the CLASSPATH variable
+ANTLR Parser Generator   Version 2.7.7 (20111217)   1989-2005
+java.g: warning:lexical nondeterminism between rules DOT and NUM_INT upon
+java.g:     k==1:'.'
+java.g:     k==2:<end-of-token>
+java.g:     k==3:<end-of-token>
+java.g:     k==4:<end-of-token>
+cantlr.sh walker.g
+Running java antlr.Tool $* with /usr/share/java/antlr.jar appended to the CLASSPATH variable
+ANTLR Parser Generator   Version 2.7.7 (20111217)   1989-2005
+make[1]: Leaving directory `/home/guido/src/java2python_r50/java2python/lib'
+
+We get some warnings, but it seems to work
+We can test it out after we install:
+
+——> cd ..
+——> sudo python setup.py install
+——> which j2py
+/usr/local/bin/j2py
+——> cd java2python/tests
+——> for i in `ls *java`; do a=`echo $i | cut -d. -f1` ; j2py -i $i -o $a.py ;done
+You should not see any problems..... you can have a look at the python code
+
+
+
+Next we need to build the translated python code from the java source code. The Makefile in ib/ext handles this for us:
+
+——> cd IbPy/ib/ext
+——> make modules-clean 
+——> cd src/
+——> make clean
+——> cd ..
+Next we set up a ib/cfg directory in the python dist-packages that j2py uses to compile the source
+——> make
+This may ask you for root access, and then we need to make again to build the source
+——> make
+You should see messages as follows:
+j2py -i ./src/IBJts/java/com/ib/client/AnyWrapper.java -o AnyWrapper.py -c ib.cfg -c ib.cfg.AnyWrapper -s
+## INFO: generated source has valid syntax.
+
+Now all the source for API version 9.65 should be built
+——> cd ../..
+Now install
+——> sudo python setup.py install
+
+Done:
+
+Everything should be installed now in /usr/local/lib/python2.7/dist-packages/ib
+drwxr-sr-x  7 root staff    4096 Dec 29 00:42 ib
+-rw-r--r--  1 root staff    1206 Dec 29 00:47 ib-9.65.egg-info
+
+How to test IbPy?
+------------------------------------------------------------------------------
+
+Now test it out.
+
+Run ibgw or tws:
+java -cp jts.jar:hsqldb.jar:jcommon-1.0.12.jar:jhall.jar:other.jar:rss.jar -Dsun.java2d.noddraw=true -Xmx512M ibgateway.
+GWClient
+
+——> ipython 
+Python 2.7.3 (default, Aug  1 2012, 05:14:39) 
+Type "copyright", "credits" or "license" for more information.
+
+IPython 0.13 -- An enhanced Interactive Python.
+?         -> Introduction and overview of IPython's features.
+%quickref -> Quick reference.
+help      -> Python's own help system.
+object?   -> Details about 'object', use 'object??' for extra details.
+
+In [1]: from ib.ext.Contract import Contract
+
+In [2]: from ib.opt import ibConnection, message
+
+In [3]: from time import sleep
+
+In [4]: def watcher(msg):
+   ...:         print msg
+   ...:     
+
+In [5]: con = ibConnection()
+
+In [6]: con.registerAll(watcher)
+Out[6]: True
+
+In [7]: con.connect()
+
+
+Try some of the code in demo directory
+——> python fancy_marketdata
+
+
+
+
+

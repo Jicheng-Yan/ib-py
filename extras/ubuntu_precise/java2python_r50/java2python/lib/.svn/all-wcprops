@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/49/trunk/java2python/lib
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/26/trunk/java2python/lib/__init__.py
+END
+java.g
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/26/trunk/java2python/lib/java.g
+END
+walker.g
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/49/trunk/java2python/lib/walker.g
+END
+sourcetypes.py
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/44/trunk/java2python/lib/sourcetypes.py
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/26/trunk/java2python/lib/Makefile
+END
+test.java
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/26/trunk/java2python/lib/test.java
+END
+defaultconfig.py
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/49/trunk/java2python/lib/defaultconfig.py
+END
